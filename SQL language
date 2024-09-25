@@ -1,0 +1,156 @@
+Here are some SQL programs and queries typically covered in 11th and 12th-grade levels. These programs involve basic database creation, manipulation, and querying.
+
+1. Create a Database
+   CREATE DATABASE School;
+   
+
+2. Create a Table
+   CREATE TABLE Students (
+       StudentID INT PRIMARY KEY,
+       FirstName VARCHAR(50),
+       LastName VARCHAR(50),
+       Age INT,
+       Gender CHAR(1)
+   );
+   
+
+3. Insert Data into Table
+   INSERT INTO Students (StudentID, FirstName, LastName, Age, Gender)
+   VALUES 
+   (1, 'John', 'Doe', 16, 'M'),
+   (2, 'Jane', 'Smith', 17, 'F'),
+   (3, 'Mike', 'Johnson', 16, 'M');
+
+4. Select All Data from a Table**
+   SELECT * FROM Students;
+
+
+5. Select Specific Columns
+   SELECT FirstName, LastName FROM Students;
+   
+
+6. Where Clause (Filter Data)
+   - Example: Get students older than 16 years
+   SELECT * FROM Students WHERE Age > 16;
+  
+
+7. Order By (Sort Data)
+   - Example: Sort students by age in ascending order
+   SELECT * FROM Students ORDER BY Age ASC;
+  
+
+8. Update Data in a Table**
+   - Example: Update the age of a student
+   UPDATE Students
+   SET Age = 18
+   WHERE StudentID = 1;
+
+
+9. Delete Data from a Table**
+   - Example: Delete a student by StudentID
+   DELETE FROM Students WHERE StudentID = 2;
+
+
+10. Aggregate Functions (Count, Sum, Avg, Max, Min)
+   - Example: Count the number of students
+   SELECT COUNT(*) AS TotalStudents FROM Students;
+   
+
+   - Example: Find the average age of students
+   SELECT AVG(Age) AS AverageAge FROM Students;
+
+
+   - Example: Find the maximum age of students
+   SELECT MAX(Age) AS OldestStudent FROM Students;
+
+
+11. Group By (Grouping Data)
+   - Example: Group students by gender and count them
+   SELECT Gender, COUNT(*) AS NumberOfStudents
+   FROM Students
+   GROUP BY Gender;
+
+
+12. Join (Combine Data from Two Tables)
+   - Create another table `Classes`
+   CREATE TABLE Classes (
+       ClassID INT PRIMARY KEY,
+       ClassName VARCHAR(50)
+   );
+ 
+
+   - Insert data into `Classes`
+   INSERT INTO Classes (ClassID, ClassName)
+   VALUES 
+   (1, 'Physics'),
+   (2, 'Chemistry'),
+   (3, 'Mathematics');
+   
+
+   - Create a `StudentClasses` table to link students and classes
+   CREATE TABLE StudentClasses (
+       StudentID INT,
+       ClassID INT,
+       FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+       FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+   );
+
+
+   - Insert data into `StudentClasses`
+   INSERT INTO StudentClasses (StudentID, ClassID)
+   VALUES 
+   (1, 1),
+   (2, 2),
+   (3, 3);
+
+
+   - Perform an INNER JOIN to combine data from `Students` and `Classes`
+
+   SELECT Students.FirstName, Students.LastName, Classes.ClassName
+   FROM Students
+   INNER JOIN StudentClasses ON Students.StudentID = StudentClasses.StudentID
+   INNER JOIN Classes ON StudentClasses.ClassID = Classes.ClassID;
+
+
+13. Having Clause (Filter Aggregated Data)**
+   - Example: Count students by age and show only those groups having more than 1 student
+   SELECT Age, COUNT(*) AS NumberOfStudents
+   FROM Students
+   GROUP BY Age
+   HAVING COUNT(*) > 1;
+
+
+14. Alter Table (Modify Table Structure)**
+   - Example: Add a new column to the `Students` table
+   ALTER TABLE Students
+   ADD Address VARCHAR(255);
+   
+
+15. Create a View**
+   - Example: Create a view to show student names and their class names
+   CREATE VIEW StudentView AS
+   SELECT Students.FirstName, Students.LastName, Classes.ClassName
+   FROM Students
+   INNER JOIN StudentClasses ON Students.StudentID = StudentClasses.StudentID
+   INNER JOIN Classes ON StudentClasses.ClassID = Classes.ClassID;
+
+
+   - Use the view
+   SELECT * FROM StudentView;
+
+
+16. Subquery (Nested Query)**
+   - Example: Find students older than the average age
+   SELECT * 
+   FROM Students
+   WHERE Age > (SELECT AVG(Age) FROM Students);
+
+
+17. Indexing (Improve Query Performance)**
+   - Example: Create an index on the `LastName` column
+   CREATE INDEX idx_lastname ON Students(LastName);
+
+
+18. Drop Table**
+   - Example: Drop the `Classes` table
+   DROP TABLE Classes;
